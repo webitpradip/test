@@ -1,0 +1,25 @@
+$data = $request->validated();
+        $data = collect($data);
+        try {
+
+            DB::beginTransaction();
+
+            $userArr = $data->only([fieldsC])->all();
+            $user = User::create($userArr);
+
+            $companyArr = $data->only(['company_name'])->all();
+            $company = Company::create($companyArr);
+
+            $user->companies()->attach($company->id);
+
+            $user->roles()->attach(Role::where('name', 'subadmin')->first());
+
+            DB::commit();
+            session()->flash('alert-success', 'Subadmin created successfully');
+        } catch (\Exception $e) {
+            die($e->getMessage());
+            DB::rollback();
+            session()->flash('alert-danger', 'Something went wrong');
+        }
+
+        return redirect(route('admin.subadmin-list.index'));

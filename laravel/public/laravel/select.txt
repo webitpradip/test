@@ -1,0 +1,1 @@
+{!!Form::select('name1', value1, 'selected1',['class' => ' class1','id'=>'id1'])!!}

@@ -1,0 +1,1 @@
+<label for="id1" class="class1" >value1</label>

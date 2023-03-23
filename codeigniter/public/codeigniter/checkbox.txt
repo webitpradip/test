@@ -1,0 +1,1 @@
+<?php echo form_checkbox('name1', value1,set_value('name1',value1),['class'=>' class1','id'=>'id1']); ?>

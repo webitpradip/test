@@ -1,0 +1,1 @@
+<?php echo form_label('value1', 'name1',['class'=>' class1','id'=>'id1Label']); ?>

@@ -1,0 +1,25 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+
+      // DataTable
+      $('#empTable').DataTable({
+        "aLengthMenu": [
+				[5, 10, 15, -1],
+				[5, 10, 15, "All"]
+			],
+         processing: true,
+         serverSide: true,
+         ajax: "{{route('admin.subadmin-list.index')}}",
+         columns: [
+            dataC
+         ],
+         "columnDefs":[
+			    {
+			         "targets":[],
+			         "orderable":false,
+			    },
+			]
+      });
+
+    });
+    </script>

@@ -1,0 +1,1 @@
+{!!Form::file('name1',['class' => ' class1','id'=>'id1']) !!}

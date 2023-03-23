@@ -1,0 +1,1 @@
+<?php echo form_upload('name1', value1,['class'=>' class1','id'=>'id1']); ?>

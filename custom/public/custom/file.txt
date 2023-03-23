@@ -1,0 +1,1 @@
+<input type="file" name="name1" id="id1" class="class1"/>

@@ -1,0 +1,8 @@
+<div class="form-group">
+                    <label for="First Name:" class="col-sm-2">First Name:</label>
+                    <div class="col-sm-5"><input class="form-control required" id="first_name" maxlength="100" name="first_name" type="text"></div>
+                    <div class="clearfix"></div>
+                    <div class="errorMessage col-sm-offset-2 col-sm-5">
+                      
+                    </div>  
+                </div>

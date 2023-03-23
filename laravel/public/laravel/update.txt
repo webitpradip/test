@@ -1,0 +1,24 @@
+ $data = $request->validated();
+        $data = collect($data);
+        $id = de($id);
+        try {
+            DB::beginTransaction();
+            $userArr = $data->only([updateC])->all();
+            $user = User::find($id);
+            $user->update($userArr);
+            $companyArr = $data->only(['company_name'])->all();
+
+            $company = Company::updateOrCreate($companyArr, $companyArr);
+            $user->companies()->attach($company->id);
+            $user->roles()->attach(Role::where('name', 'subadmin')->first());
+
+            DB::commit();
+            session()->flash('alert-success', 'Subadmin updated successfully');
+            return redirect(route('admin.subadmin-list.index'));
+        } catch (\Exception $e) {
+            die($e->getMessage());
+            DB::rollback();
+            session()->flash('alert-danger', 'Something went wrong');
+        }
+
+        return redirect(route('admin.subadmin-list.index'));

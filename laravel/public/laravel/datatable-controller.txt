@@ -1,0 +1,64 @@
+if ($request->ajax()) {
+            ## Read value
+            $draw = $request->get('draw');
+            $start = $request->get("start");
+            $rowperpage = $request->get("length"); // Rows display per page
+
+            $columnIndex_arr = $request->get('order');
+            $columnName_arr = $request->get('columns');
+            $order_arr = $request->get('order');
+            $search_arr = $request->get('search');
+
+            $columnIndex = $columnIndex_arr[0]['column']; // Column index
+            $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+            $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+            $searchValue = $search_arr['value']; // Search value
+
+
+
+            // Fetch records
+            $records = User::leftJoin('user_company',  'users.id', 'user_company.user_id')
+                ->leftJoin('companies',  'companies.id', 'user_company.company_id')
+                ->leftJoin('business_types',   'companies.business_type_id', 'business_types.id')
+                ->leftJoin('know_about_us',   'users.how_did_you_learn_about_us',  'know_about_us.id')
+                ->whereHas('roles', function ($q) {
+                    $q->where('name', 'subadmin');
+                })->distinct()->orderBy($columnName, $columnSortOrder);
+
+            $totalRecords = $records->get()->count();
+
+            $records = $records->where(function ($q) use ($searchValue) {
+                if (!empty($searchValue)) {
+                    $q->where('users.first_name', 'like', '%' . $searchValue . '%');
+                    $q->orWhere('users.last_name', 'like', '%' . $searchValue . '%');
+                    $q->orWhere('users.email', 'like', '%' . $searchValue . '%');
+                    $q->orWhere('users.mobile_no', 'like', '%' . $searchValue . '%');
+                }
+            })
+                ->distinct()
+                ->skip($start)
+                ->take($rowperpage)
+                ->get('users.*');
+
+            $totalRecordswithFilter = $records->count();
+
+            $data_arr = array();
+            foreach ($records as $record) {
+                $activeChecked = $record->is_active == '1' ? 'checked=checked' : '';
+                $action2 = '<input data-id="' . en($record->id) . '" type="checkbox" id="is_active" name="is_active" ' . $activeChecked . ' data-bootstrap-switch data-off-color="danger" data-on-color="success">';
+
+
+                $data_arr[] = array(
+                    controllerC
+                );
+            }
+
+            $response = array(
+                "draw" => intval($draw),
+                "iTotalRecords" => $totalRecords,
+                "iTotalDisplayRecords" => $totalRecordswithFilter,
+                "aaData" => $data_arr
+            );
+            return response()->json($response);
+        }
+        return view('admin.subadmin_list.index');

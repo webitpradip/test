@@ -1,0 +1,11 @@
+<select name="name1" id="id1" class="class1">
+<option value="">Select name1</option>
+<?php
+    foreach($name1s as $name1)
+    {
+        $selected=$name1['id']==selected1?"selected='selected'":'';
+        echo "<option value='.$name1['id'].' ".$selected."  >".$name1['value']." </option>";
+    }
+
+?>
+</select>

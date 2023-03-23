@@ -1,0 +1,16 @@
+<a href="../index.php">Home</a> ||
+<a href="custom-design.php">Custom Design</a> ||
+<a href="./create.php">Create</a> ||
+<a href="./core-php.php">Insert/Update</a> ||
+<a href="./s-validation.php">SValidation</a> ||
+<a href="./get-field-from-design.php">Get field from design</a> ||
+<a href="./left-right-key-values.php">Left right key values</a> ||
+<a href="./compare.php">Compare</a> ||
+<a href="./compare-array-directly.php">Compare array directly</a> ||
+<a href="./compare-database.php">Compare Database</a> ||
+<a href="./find-col-in-db.php">Find col in DB</a>||
+<a href="./find-value-in-db.php">Find value in DB</a>||
+<a href="./database-change-trigger.php">Database Change Trigger</a> ||
+<a href="./database-changes.php">Database Changes</a> ||
+<a href="./mysql-log.php">Mysql Log</a> ||
+<a href="./find-relation-db.php">Find Relation in DB</a> ||
