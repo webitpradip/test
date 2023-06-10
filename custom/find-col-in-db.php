@@ -1,14 +1,53 @@
 <?php require_once 'menu.php' ?>
-<?php $columnName=isset($_GET['column_name'])?$_GET['column_name']:''; ?>
-<form>
-    Enter column name <input type="text" name="column_name" value="<?php echo $columnName; ?>"/>
-    <input type="submit" value="Search" />
-</form>
 <?php
-$firstDbName='feet';
-$firstDbUser='root';
-$firstDbPassword='123456';
-$firstDbHost='localhost';
+    function fetchVal($key){
+        if(isset($_REQUEST[$key])){
+            return $_REQUEST[$key];
+        }
+        return '';
+    }
+?>
+<html>
+    <head>
+        <title>Mysql Log</title>
+    </head>
+    <body>
+          <form method="post">
+            Enter Host:
+            <input name="host" type="text" value="<?php echo fetchVal('host'); ?>"/>
+            <br/>
+            Enter Username:
+            <input name="username" type="text" value="<?php echo fetchVal('username'); ?>"/>
+            <br/>
+            Enter Password:
+            <input name="password" type="password" value="<?php echo fetchVal('password'); ?>"/>
+            <br/>
+            Enter DB Name:
+            <input name="db" type="text" value="<?php echo fetchVal('db'); ?>"/>
+            <br/>
+            Table Names:
+            <textarea name="table_names" rows="10" cols="50"><?php echo fetchVal('table_names'); ?></textarea>
+            <br/>
+            Enter column name <input type="text" name="column_name" value="<?php echo fetchVal('column_name'); ?>"/>
+            <input type="submit" value="Show" />
+        </form>
+
+
+<?php
+$firstDbName        =   fetchVal('db');
+$firstDbUser        =   fetchVal('username');
+$firstDbPassword    =   fetchVal('password');
+$tableNames         =   fetchVal('table_names');
+$firstDbHost        =   fetchVal('host');
+$columnName         =   fetchVal('column_name');
+$tableNameStr = '';
+$tableNames =explode(",",$tableNames);
+foreach($tableNames as $tableName){
+    if(!empty($tableNameStr)){
+        $tableNameStr.=",";
+    }
+    $tableNameStr.="'".$tableName."'";
+}
 
 
 class db {
@@ -168,26 +207,31 @@ function createTable($tableName,$heads,$rows){
 }
 
 $db1=new db($firstDbHost, $firstDbUser,  $firstDbPassword,  $firstDbName);
+$db2=new db($firstDbHost, $firstDbUser,  $firstDbPassword,  $firstDbName);
 
 
     $getColNameSql="SELECT DISTINCT TABLE_NAME 
     FROM INFORMATION_SCHEMA.COLUMNS
     WHERE COLUMN_NAME like '%".$columnName."%'
-        AND TABLE_SCHEMA='".$firstDbName."';";
-    
+        AND TABLE_SCHEMA='".$firstDbName."'";
+    $tableNameStr = trim($tableNameStr);    
+    if(!empty($tableNameStr) && $tableNameStr!="''"){
+        $getColNameSql.=" AND TABLE_NAME IN(".$tableNameStr.")";
+    }
+   
     $db1->query($getColNameSql);
     $tables=$db1->fetchAll();
     $tables=array_column($tables,'TABLE_NAME');
     
     foreach($tables as $table){
-        $db1->query("select * from $table  limit 0,1 ");
-        $rows=$db1->fetchAll();
+        $db2->query("desc $table");
+        $rows=$db2->fetchAll();
         if(isset($rows[0])){
             $columns=array_unique(array_keys($rows[0]));
         }else{
             $columns=[$columnName];
         }
-        createTable($table, $columns, []);
+        createTable($table, $columns, $rows);
     
 }
   
