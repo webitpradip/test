@@ -11,6 +11,7 @@
     <head>
         <title>Mysql Log</title>
     </head>
+    
     <body>
           <form method="post">
             Enter Host:
