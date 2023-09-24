@@ -15,3 +15,5 @@
 <a href="./mysql-log.php">Mysql Log</a> ||
 <a href="./find-relation-db.php">Find Relation in DB</a> ||
 <a href="./copy-db-data.php">Copy DB Data</a> ||
+<a href="./ai-relation-db.php">AI Relation DB</a> ||
+
