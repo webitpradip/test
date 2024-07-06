@@ -16,5 +16,5 @@ function remove_logging($filePath) {
 }
 
 // Usage
-remove_logging("C:\\docker\\ejob\\blog.php");
+remove_logging("C:\\Users\\webit\\Downloads\\auth.php");
 ?>
